@@ -17,10 +17,25 @@ const HeroSection = () => {
         seconds - just type, and watch the magic happen
       </p>
       <button className="sm:text-lg text-white bg-black w-auto mt-8 px-10 py-2.5 flex items-center gap-2 rounded-full">
-        Generate Image 
+        Generate Image
         <img className="h-6" src={assets.star_group} alt={assets.star_icon} />
       </button>
 
+      <div className="flex flex-wrap justify-center mt-16 gap-2">
+        {Array(6)
+          .fill("")
+          .map((item, index) => (
+            <img
+              className="hover:scale-105 
+             transition-all duration-300 max-sm:w-10 cursor-pointer"
+              src={index %2 === 0 ? assets.sample_img_2 : assets.sample_img_1}
+              alt={assets.sample_img_1}
+              key={index}
+              width={70}
+            />
+          ))}
+      </div>
+      <p className="mt-2 text-sm text-neutral-600">Generate Image from Imagify</p>
     </div>
   );
 };
