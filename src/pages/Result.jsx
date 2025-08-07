@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { assets } from "../assets/assets";
 import { motion, useInView } from "framer-motion";
+import { AppContext } from "../context/AppContext";
+import { toast } from "react-toastify";
 
 const Result = () => {
   const [image, setImage] = useState(assets.sample_img_1);
@@ -12,11 +14,26 @@ const Result = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
-  const onSubmitHandler = async (e) => {
-    e.preventDefault();
-    alert("form is working");
-    // You can add loading + image setting logic here
-  };
+const {generateImage} = useContext(AppContext)
+
+const onSubmitHandler = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+
+  if (input) {
+    const image = await generateImage(input);
+    if (image) {
+      toast.success("Your image is being generated. This might take a few seconds or minutes...")
+      setIsImageLoaded(true);
+      setImage(image);
+    } else {
+      toast.error("Image could not be generated.");
+    }
+  }
+
+  setLoading(false);
+};
+
 
   return (
     <motion.form
